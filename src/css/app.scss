@@ -1,2 +1,43 @@
 // app global css in SCSS form
+
 @import 'layout/container';
+
+a {
+	text-decoration: none;
+	color: $primary;
+}
+
+ol,
+ul {
+	padding-left: 1rem;
+}
+
+.wave {
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	z-index: -1;
+	padding: 0;
+	height: 500px;
+	@media (max-width: $breakpoint-sm-max) {
+		height: 320px;
+	}
+}
+
+// .body--light {
+// 	.q-card {
+// 		background: $grey-1;
+// 	}
+// }
+
+@keyframes shakeX {
+	0% {
+		transform: rotate(-1deg);
+		animation-timing-function: ease-in;
+	}
+
+	50% {
+		transform: rotate(1.5deg);
+		animation-timing-function: ease-out;
+	}
+}

@@ -57,6 +57,7 @@ module.exports = {
 		'no-promise-executor-return': 'off',
 		'max-len': ['error', { code: 120 }],
 		'no-tabs': ['error', { allowIndentationTabs: true }],
+		'comma-dangle': 'off',
 		'no-unused-vars': [
 			'error',
 			{

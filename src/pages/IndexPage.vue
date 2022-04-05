@@ -1,17 +1,18 @@
 <template>
-	<q-btn color="primary" @click="logoutUser">Logout</q-btn>
+	<Calendar />
 </template>
 
 <script>
-	import { useAuth } from 'src/hooks/useAuth';
+	import { Calendar } from 'v-calendar';
 
 	export default {
-		setup() {
-			const { logoutUser } = useAuth();
-
-			return {
-				logoutUser,
-			};
+		components: {
+			Calendar,
 		},
+		setup() {},
 	};
 </script>
+
+<style lang="scss">
+	@import 'v-calendar/dist/style.css';
+</style>

@@ -17,7 +17,10 @@
 			</div>
 			<div class="col-12 offset-sm-2 col-sm-8 col-md-6 offset-md-3 col-lg-4 offset-lg-4 flex flex-center">
 				<q-card class="full-width q-mb-md">
-					<q-card-section> <EditDisplayName /><EditEmail /> </q-card-section>
+					<q-card-section>
+						<EditDisplayName />
+						<EditEmail />
+					</q-card-section>
 				</q-card>
 				<q-btn no-caps color="grey-9" @click="logoutUser">Sign Out</q-btn>
 			</div>
@@ -28,8 +31,8 @@
 <script>
 	import { useAuth } from 'src/hooks/useAuth';
 	import DisplayName from 'src/components/user/DisplayName.vue';
-	import EditDisplayName from 'src/components/form/EditDisplayName.vue';
-	import EditEmail from 'src/components/form/EditEmail.vue';
+	import EditDisplayName from 'src/components/account/EditDisplayName.vue';
+	import EditEmail from 'src/components/account/EditEmail.vue';
 
 	export default {
 		components: {

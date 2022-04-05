@@ -4,7 +4,7 @@
 			<q-btn flat round dense icon="mdi-menu" @click="toggleNav" />
 			<div class="flex flex-center q-ml-lg">
 				<q-icon size="xs" name="mdi-view-dashboard" class="q-mr-sm" />
-				<p class="q-mb-none text-h6">{{ title }}</p>
+				<p class="text-h6 q-mb-none">{{ title }}</p>
 			</div>
 			<q-space></q-space>
 			<router-link :to="{ name: 'Account' }">

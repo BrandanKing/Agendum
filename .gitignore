@@ -27,4 +27,4 @@ node_modules
 *.sln
 
 # Firebase
-saved-data/
+save-data/

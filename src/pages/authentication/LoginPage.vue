@@ -6,9 +6,9 @@
 			</q-avatar>
 		</q-card-section>
 		<q-card-section>
-			<h1 class="text-h5 q-my-none text-center q-pt-lg q-py-md text-weight-bold">Login</h1>
+			<h1 class="text-center q-pt-lg">Login</h1>
 			<GoogleAuthentication type="login" />
-			<p class="text-subtitle1 text-weight-bold text-center q-py-sm q-my-none">Or</p>
+			<q-separator size="1px" color="white" class="q-my-md" />
 			<Form
 				class="row q-col-gutter-sm"
 				:validation-schema="schema"
@@ -35,7 +35,7 @@
 			</Form>
 			<p class="text-center q-pt-lg q-my-0 text-grey-13 text-body2">
 				Don't have an account?
-				<router-link class="text-primary text-weight-bold" :to="{ name: 'Register' }"> Sign up </router-link>
+				<router-link class="text-weight-bold" :to="{ name: 'Register' }"> Sign up </router-link>
 			</p>
 		</q-card-section>
 	</q-card>
@@ -46,7 +46,7 @@
 	import { object, string } from 'yup';
 	import { useAuth } from 'src/hooks/useAuth';
 	import InputValidation from 'src/components/form/InputValidation.vue';
-	import GoogleAuthentication from 'src/components/form/GoogleAuthentication.vue';
+	import GoogleAuthentication from 'src/components/auth/GoogleAuthentication.vue';
 
 	export default {
 		components: {

@@ -105,6 +105,12 @@ export const useAuth = () => {
 		return state;
 	};
 
+	const isLoggedIn = () => {
+		const user = firebaseAuth.currentUser;
+		if (user) store.setUser(user);
+		else store.clearUser();
+	};
+
 	return {
 		registerUser,
 		loginUser,
@@ -113,5 +119,6 @@ export const useAuth = () => {
 		updateDisplayName,
 		updateUserEmail,
 		onStateChange,
+		isLoggedIn,
 	};
 };

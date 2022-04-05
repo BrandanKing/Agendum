@@ -18,7 +18,7 @@ export default [
 		routeName: 'Tasks',
 	},
 	{
-		icon: 'mdi-book-edit-outline',
+		icon: 'mdi-notebook-edit-outline',
 		label: 'Notes',
 		separator: true,
 		routeName: 'Notes',

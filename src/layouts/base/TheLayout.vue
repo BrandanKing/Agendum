@@ -3,7 +3,7 @@
 		<TheHeader />
 		<q-page-container>
 			<q-page padding>
-				<q-img src="~assets/wave.svg" class="wave" alt="" />
+				<q-img src="~assets/wave.svg" class="wave" alt="" position="50% 0px" />
 				<router-view v-slot="slotProps">
 					<transition
 						appear
@@ -25,15 +25,3 @@
 		components: { TheHeader },
 	};
 </script>
-
-<style lang="scss" scoped>
-	.wave {
-		position: fixed;
-		width: 100%;
-		left: 0;
-		bottom: 0;
-		z-index: -1;
-		max-height: 300px;
-		opacity: 0.8;
-	}
-</style>
