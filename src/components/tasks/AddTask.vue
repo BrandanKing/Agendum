@@ -51,8 +51,8 @@
 	import { computed, ref } from 'vue';
 	import { useForm } from 'vee-validate';
 	import { object, string } from 'yup';
-	import InputValidation from 'src/components/form/InputValidation.vue';
-	import { useTasksStore } from 'src/stores/useTasksStore';
+	import InputValidation from 'components/form/InputValidation.vue';
+	import { useTasksStore } from 'stores/useTasksStore';
 
 	export default {
 		components: { InputValidation },

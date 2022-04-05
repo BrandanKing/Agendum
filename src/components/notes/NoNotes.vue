@@ -10,7 +10,7 @@
 	import { defineAsyncComponent } from 'vue';
 	import { useQuasar } from 'quasar';
 
-	const AddNote = defineAsyncComponent(() => import('src/components/notes/AddNote.vue'));
+	const AddNote = defineAsyncComponent(() => import('components/notes/AddNote.vue'));
 
 	export default {
 		setup() {

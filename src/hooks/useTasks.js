@@ -1,7 +1,7 @@
 import { collection, orderBy, query, where } from 'firebase/firestore';
-import { db } from 'src/boot/firebase';
-// import { useTasksStore } from 'src/stores/useTasksStore';
-import { useUserStore } from 'src/stores/useUserStore';
+import { db } from 'boot/firebase';
+// import { useTasksStore } from 'stores/useTasksStore';
+import { useUserStore } from 'stores/useUserStore';
 
 export const useTasks = () => {
 	// const store = useTasksStore();

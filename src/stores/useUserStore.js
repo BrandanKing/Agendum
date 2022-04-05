@@ -7,7 +7,7 @@ export const useUserStore = defineStore('user', {
 	getters: {
 		getUser: ({ user }) => user,
 		getID: ({ user: { uid } }) => uid,
-		getDisplayName: ({ user: { displayName } }) => displayName,
+		getDisplayName: ({ user }) => user?.displayName,
 		getEmail: ({ user: { email } }) => email,
 	},
 	actions: {

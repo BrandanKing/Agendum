@@ -36,8 +36,8 @@
 	import { object, string } from 'yup';
 	import { discardContent } from 'src/utils/DialogUtil';
 	import { useNotes } from 'src/hooks/useNotes';
-	import TextEditor from 'src/components/form/TextEditor.vue';
-	import InputValidation from 'src/components/form/InputValidation.vue';
+	import TextEditor from 'components/form/TextEditor.vue';
+	import InputValidation from 'components/form/InputValidation.vue';
 
 	export default {
 		emits: [...useDialogPluginComponent.emits],

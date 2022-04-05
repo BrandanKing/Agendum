@@ -1,15 +1,10 @@
-import { LoadingBar } from 'quasar';
 import { boot } from 'quasar/wrappers';
+import { LoadingBar } from 'quasar';
 import { useAuth } from 'src/hooks/useAuth';
 
 export default boot(async () => {
-	const { onStateChange } = useAuth();
-	LoadingBar.setDefaults({
-		color: 'accent',
-	});
+	const { watchAuthState } = useAuth();
 	LoadingBar.start();
-
-	await onStateChange();
-
+	await watchAuthState();
 	LoadingBar.stop();
 });

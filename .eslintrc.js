@@ -11,6 +11,7 @@ module.exports = {
 	env: {
 		node: true,
 		browser: true,
+		'vue/setup-compiler-macros': true,
 	},
 
 	// Rules order is important, please avoid shuffling them
@@ -45,19 +46,15 @@ module.exports = {
 		process: 'readonly',
 		Capacitor: 'readonly',
 		chrome: 'readonly',
-		defineProps: 'readonly', // Vue SFC setup compiler macro
-		defineEmits: 'readonly', // Vue SFC setup compiler macro
-		defineExpose: 'readonly', // Vue SFC setup compiler macro
 	},
 
 	// add your custom rules here
 	rules: {
 		indent: ['off', 'tab'],
-		'object-curly-newline': 'off',
-		'no-promise-executor-return': 'off',
-		'max-len': ['error', { code: 120 }],
 		'no-tabs': ['error', { allowIndentationTabs: true }],
-		'comma-dangle': 'off',
+		'max-len': ['error', { code: 120 }],
+		'object-curly-newline': 'off',
+		'arrow-body-style': 'off',
 		'no-unused-vars': [
 			'error',
 			{

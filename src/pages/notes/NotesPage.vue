@@ -2,7 +2,8 @@
 	<div class="container">
 		<NotesProvider>
 			<transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in">
-				<NoNotes v-if="!hasNotes" />
+				<q-inner-loading v-if="$q.loadingBar.isActive" :showing="true" color="white" />
+				<NoNotes v-else-if="!hasNotes" />
 				<TheNotes v-else />
 			</transition>
 			<router-view v-if="!$q.loadingBar.isActive"></router-view>
@@ -13,10 +14,10 @@
 <script>
 	import { computed, defineAsyncComponent } from 'vue';
 	import { NotesProvider } from 'src/hooks/useNotes';
-	import { useNotesStore } from 'src/stores/useNotesStore';
+	import { useNotesStore } from 'stores/useNotesStore';
 
-	const TheNotes = defineAsyncComponent(() => import('src/components/notes/TheNotes.vue'));
-	const NoNotes = defineAsyncComponent(() => import('src/components/notes/NoNotes.vue'));
+	const TheNotes = defineAsyncComponent(() => import('components/notes/TheNotes.vue'));
+	const NoNotes = defineAsyncComponent(() => import('components/notes/NoNotes.vue'));
 
 	export default {
 		components: { NoNotes, NotesProvider, TheNotes },

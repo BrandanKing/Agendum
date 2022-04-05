@@ -7,7 +7,7 @@
 		<div class="col-12">
 			<masonry-wall :items="notes" :ssr-columns="4" :column-width="250" :gap="16">
 				<template #default="{ item }">
-					<NoteOverview :note="item" />
+					<TheNote :note="item" />
 				</template>
 			</masonry-wall>
 		</div>
@@ -21,13 +21,13 @@
 	import { computed, defineAsyncComponent } from 'vue';
 	import { useQuasar } from 'quasar';
 	import MasonryWall from '@yeger/vue-masonry-wall';
-	import NoteOverview from 'src/components/notes/NoteOverview.vue';
-	import { useNotesStore } from 'src/stores/useNotesStore';
+	import TheNote from 'components/notes/TheNote.vue';
+	import { useNotesStore } from 'stores/useNotesStore';
 
-	const AddNote = defineAsyncComponent(() => import('src/components/notes/AddNote.vue'));
+	const AddNote = defineAsyncComponent(() => import('components/notes/AddNote.vue'));
 
 	export default {
-		components: { MasonryWall, NoteOverview },
+		components: { MasonryWall, TheNote },
 		setup() {
 			const $q = useQuasar();
 			const store = useNotesStore();

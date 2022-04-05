@@ -13,6 +13,7 @@
 					</q-item>
 					<q-separator :key="`sep${index}`" v-if="separator" />
 				</template>
+
 				<q-item clickable v-ripple active-class="" @click="logoutUser">
 					<q-item-section avatar>
 						<q-icon name="mdi-exit-to-app" />

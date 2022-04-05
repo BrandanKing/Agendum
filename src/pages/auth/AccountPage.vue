@@ -30,9 +30,9 @@
 
 <script>
 	import { useAuth } from 'src/hooks/useAuth';
-	import DisplayName from 'src/components/user/DisplayName.vue';
-	import EditDisplayName from 'src/components/account/EditDisplayName.vue';
-	import EditEmail from 'src/components/account/EditEmail.vue';
+	import DisplayName from 'components/user/DisplayName.vue';
+	import EditDisplayName from 'components/account/EditDisplayName.vue';
+	import EditEmail from 'components/account/EditEmail.vue';
 
 	export default {
 		components: {

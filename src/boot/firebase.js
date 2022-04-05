@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, connectAuthEmulator } from 'firebase/auth';
-import { getFirestore, connectFirestoreEmulator, enableIndexedDbPersistence, disableNetwork } from 'firebase/firestore';
+import { getFirestore, connectFirestoreEmulator, enableIndexedDbPersistence } from 'firebase/firestore';
 
 const firebaseConfig = {
 	apiKey: 'AIzaSyAriVP2RJ9d5CRBkqaV1jdFhsfG0Lnasrc',
@@ -12,10 +12,10 @@ const firebaseConfig = {
 };
 
 const firebaseApp = initializeApp(firebaseConfig);
-const firebaseAuth = getAuth(firebaseApp);
+const auth = getAuth(firebaseApp);
 const db = getFirestore(firebaseApp);
 
-connectAuthEmulator(firebaseAuth, 'http://localhost:9099');
+connectAuthEmulator(auth, 'http://localhost:9099');
 connectFirestoreEmulator(db, 'localhost', 8080);
 
 enableIndexedDbPersistence(db, { synchronizeTabs: true }).catch((err) => {
@@ -30,10 +30,10 @@ enableIndexedDbPersistence(db, { synchronizeTabs: true }).catch((err) => {
 	}
 });
 
-const disable = async () => {
-	await disableNetwork(db);
-};
+// const disable = async () => {
+// await disableNetwork(db);
+// };
 
-disable();
+// disable();
 
-export { firebaseAuth, db };
+export { auth, db };

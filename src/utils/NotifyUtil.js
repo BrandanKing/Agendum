@@ -5,8 +5,6 @@ export const errorToast = (message) => {
 		type: 'negative',
 		message,
 		position: 'center',
-		icon: 'mdi-alert-circle-outline',
-		timeout: 2500,
 	});
 };
 
@@ -15,7 +13,5 @@ export const successToast = (message) => {
 		type: 'positive',
 		message,
 		position: 'top',
-		icon: 'mdi-alert-circle-outline',
-		timeout: 2500,
 	});
 };

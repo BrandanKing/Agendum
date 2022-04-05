@@ -14,6 +14,7 @@
 			</router-link>
 		</q-toolbar>
 	</q-header>
+
 	<TheNavigation v-model="drawer" />
 </template>
 

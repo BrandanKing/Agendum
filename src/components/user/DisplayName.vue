@@ -4,7 +4,7 @@
 
 <script>
 	import { computed } from 'vue';
-	import { useUserStore } from 'src/stores/useUserStore';
+	import { useUserStore } from 'stores/useUserStore';
 
 	export default {
 		setup() {

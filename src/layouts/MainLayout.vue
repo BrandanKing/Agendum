@@ -19,7 +19,7 @@
 </template>
 
 <script>
-	import TheHeader from 'src/components/header/TheHeader.vue';
+	import TheHeader from 'components/header/TheHeader.vue';
 
 	export default {
 		components: { TheHeader },

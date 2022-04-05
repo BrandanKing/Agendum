@@ -1,4 +1,3 @@
-import { firebaseAuth } from 'src/boot/firebase';
 import {
 	createUserWithEmailAndPassword,
 	GoogleAuthProvider,
@@ -9,20 +8,20 @@ import {
 	updateEmail,
 	updateProfile,
 } from 'firebase/auth';
-import { useUserStore } from 'src/stores/useUserStore';
+import { auth } from 'boot/firebase';
+import { useUserStore } from 'stores/useUserStore';
 import { errorToast, successToast } from 'src/utils/NotifyUtil';
 import router from 'src/router';
 
 export const useAuth = () => {
 	const store = useUserStore();
 
-	const registerUser = async ({ email, password, displayName }) => {
+	const loginUser = async ({ email, password }) => {
 		try {
-			await createUserWithEmailAndPassword(firebaseAuth, email, password);
-			await updateProfile(firebaseAuth.currentUser, { displayName });
-			store.setUser(firebaseAuth.currentUser);
-			router.push({ name: 'Dashboard' });
-
+			const { user } = await signInWithEmailAndPassword(auth, email, password);
+			store.setUser(user);
+			router.push({ name: 'Dashbord' });
+			successToast('Login Successful');
 			return { success: true, message: 'User successfully created' };
 		} catch (error) {
 			errorToast(error.message);
@@ -30,12 +29,25 @@ export const useAuth = () => {
 		}
 	};
 
-	const loginUser = async ({ email, password }) => {
+	const registerUser = async ({ email, password, displayName }) => {
 		try {
-			const { user } = await signInWithEmailAndPassword(firebaseAuth, email, password);
-			store.setUser(user);
-			router.push({ name: 'Dashboard' });
-			return { success: true, message: 'User successfully logged in' };
+			await createUserWithEmailAndPassword(auth, email, password);
+			await updateProfile(auth.currentUser, { displayName });
+			store.setUser(auth.currentUser);
+			router.push({ name: 'Dashbord' });
+			successToast('Account Successfully Created');
+			return { success: true, message: 'User successfully created' };
+		} catch (error) {
+			errorToast(error.message);
+			return { success: false, message: error.message };
+		}
+	};
+
+	const logoutUser = async () => {
+		try {
+			await signOut(auth);
+			successToast('Successfully logged out');
+			return { success: true, message: 'User successfully logged out' };
 		} catch (error) {
 			errorToast(error.message);
 			return { success: false, message: error.message };
@@ -45,9 +57,10 @@ export const useAuth = () => {
 	const googleAuthentication = async (authType) => {
 		const provider = new GoogleAuthProvider();
 		try {
-			const { user } = await signInWithPopup(firebaseAuth, provider);
+			const { user } = await signInWithPopup(auth, provider);
 			store.setUser(user);
 			router.push({ name: 'Dashboard' });
+			successToast(`${authType} Successful`);
 		} catch (error) {
 			const errorCode = error.code;
 			let errorMessage = error.message;
@@ -60,19 +73,23 @@ export const useAuth = () => {
 		}
 	};
 
-	const logoutUser = async () => {
-		try {
-			await signOut(firebaseAuth);
-			return { success: true, message: 'User successfully logged out' };
-		} catch (error) {
-			errorToast(error.message);
-			return { success: false, message: error.message };
-		}
+	const watchAuthState = async () => {
+		return new Promise((resolve) => {
+			onAuthStateChanged(auth, (user) => {
+				if (user) {
+					store.setUser(user);
+				} else {
+					store.clearUser();
+				}
+
+				resolve();
+			});
+		});
 	};
 
 	const updateDisplayName = async ({ displayName }) => {
 		try {
-			await updateProfile(firebaseAuth.currentUser, { displayName });
+			await updateProfile(auth.currentUser, { displayName });
 			store.setDisplayName(displayName);
 			successToast(`Display name updated to ${displayName}`);
 			return { success: true, message: `User display name updated to ${displayName}` };
@@ -81,9 +98,10 @@ export const useAuth = () => {
 			return { success: false, message: error.message };
 		}
 	};
+
 	const updateUserEmail = async ({ email }) => {
 		try {
-			await updateEmail(firebaseAuth.currentUser, email);
+			await updateEmail(auth.currentUser, email);
 			store.setEmail(email);
 			successToast(`User Email updated to ${email}`);
 			return { success: true, message: `User Email updated to ${email}` };
@@ -93,32 +111,13 @@ export const useAuth = () => {
 		}
 	};
 
-	const onStateChange = async () => {
-		const state = new Promise((resolve) => {
-			onAuthStateChanged(firebaseAuth, (user) => {
-				if (user) store.setUser(user);
-				else store.clearUser();
-
-				resolve();
-			});
-		});
-		return state;
-	};
-
-	const isLoggedIn = () => {
-		const user = firebaseAuth.currentUser;
-		if (user) store.setUser(user);
-		else store.clearUser();
-	};
-
 	return {
-		registerUser,
 		loginUser,
-		googleAuthentication,
+		registerUser,
 		logoutUser,
+		googleAuthentication,
+		watchAuthState,
 		updateDisplayName,
 		updateUserEmail,
-		onStateChange,
-		isLoggedIn,
 	};
 };

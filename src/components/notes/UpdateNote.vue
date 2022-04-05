@@ -42,10 +42,10 @@
 	import { object, string } from 'yup';
 	import { diff } from 'deep-object-diff';
 	import { discardContent } from 'src/utils/DialogUtil';
-	import { useNotesStore } from 'src/stores/useNotesStore';
+	import { useNotesStore } from 'stores/useNotesStore';
 	import { useNotes } from 'src/hooks/useNotes';
-	import TextEditor from 'src/components/form/TextEditor.vue';
-	import InputValidation from 'src/components/form/InputValidation.vue';
+	import TextEditor from 'components/form/TextEditor.vue';
+	import InputValidation from 'components/form/InputValidation.vue';
 
 	export default {
 		components: { TextEditor, InputValidation },

@@ -1,30 +1,30 @@
-import { defineComponent, onUnmounted, onMounted } from 'vue';
+import { defineComponent, onMounted, onUnmounted } from 'vue';
 import {
-	collection,
-	onSnapshot,
-	query,
-	Timestamp,
-	where,
-	orderBy,
 	addDoc,
+	collection,
 	deleteDoc,
 	doc,
+	onSnapshot,
+	orderBy,
+	query,
+	Timestamp,
 	updateDoc,
+	where,
 } from 'firebase/firestore';
 import { date, LoadingBar } from 'quasar';
-import { db } from 'src/boot/firebase';
-import { useNotesStore } from 'src/stores/useNotesStore';
-import { useUserStore } from 'src/stores/useUserStore';
+import { db } from 'boot/firebase';
+import { useNotesStore } from 'stores/useNotesStore';
+import { useUserStore } from 'stores/useUserStore';
 import { errorToast, successToast } from 'src/utils/NotifyUtil';
 
 export const useNotes = () => {
 	const store = useNotesStore();
 	const userStore = useUserStore();
-
 	const uid = userStore.getID;
 
 	const getNotes = () => {
 		const q = query(collection(db, 'notes'), where('uid', '==', uid), orderBy('created', 'desc'));
+
 		return new Promise((resolve) => {
 			const unsubscribe = onSnapshot(q, { includeMetadataChanges: true }, (querySnapshot) => {
 				const notes = [];
@@ -42,6 +42,7 @@ export const useNotes = () => {
 					};
 					notes.push(noteObject);
 				});
+
 				store.setNotes(notes);
 				resolve(unsubscribe);
 			});
@@ -73,16 +74,15 @@ export const useNotes = () => {
 };
 
 export const NotesProvider = defineComponent({
-	setup(props, { slots }) {
+	setup(_props, { slots }) {
 		let unsubscribe;
 		const { getNotes } = useNotes();
-		LoadingBar.setDefaults({
-			color: 'accent',
-		});
+
 		LoadingBar.start();
 
 		onMounted(async () => {
 			unsubscribe = await getNotes();
+
 			LoadingBar.stop();
 		});
 
