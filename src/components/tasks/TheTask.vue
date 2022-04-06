@@ -1,23 +1,23 @@
 <template>
 	<form class="task">
-		<q-item tag="label" class="bg-dark rounded-borders q-pa-sm">
+		<q-item tag="label" class="bg-dark rounded-borders q-pa-sm" style="min-height: 0">
 			<q-item-section side class="q-pr-sm">
 				<q-checkbox v-model="isComplete" dense />
 			</q-item-section>
-			<q-item-section>
+			<q-item-section class="full-height">
 				<q-item-label class="text-body2">
 					<InputValidation
 						v-if="edit"
 						name="task"
-						:autogrow="$q.screen.lt.sm"
+						autogrow
 						dense
 						square
 						autofocus
 						borderless
 						hide-bottom-space
-						input-style="padding:0" />
+						input-style="padding:0;" />
 					<div v-else>
-						Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+						{{ task.task }}
 						<span v-if="displayDate" class="block text-caption q-mt-sm">
 							<q-icon name="mdi-calendar-blank-outline" style="vertical-align: top" />
 							{{ displayDate }}
@@ -209,5 +209,9 @@
 		.q-icon {
 			font-size: 20px;
 		}
+	}
+	.q-textarea.q-field--dense .q-field__control,
+	.q-textarea.q-field--dense .q-field__native {
+		min-height: fit-content;
 	}
 </style>
