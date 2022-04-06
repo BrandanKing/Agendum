@@ -57,12 +57,12 @@
 		},
 		setup(props) {
 			const router = useRouter();
+			const store = useNotesStore();
+			const { updateNote } = useNotes();
+
 			const dialog = ref(null);
 
-			const store = useNotesStore();
 			const note = computed(() => store.getNote(props.id));
-
-			const { updateNote } = useNotes();
 
 			onMounted(() => {
 				dialog.value.show();

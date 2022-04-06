@@ -1,7 +1,8 @@
 <template>
 	<div class="flex flex-center column">
 		<h1 class="text-weight-regular">Your Notes</h1>
-		<q-img src="~assets/add_notes.svg" class="q-my-md note-image" />
+		<h5>You currently have no notes, get started today</h5>
+		<q-img src="~assets/add_notes.svg" class="q-my-md no-results-image" />
 		<q-btn color="primary" size="18px" no-caps ripple @click="addNoteDialog">Get Started</q-btn>
 	</div>
 </template>
@@ -26,9 +27,3 @@
 		},
 	};
 </script>
-
-<style lang="scss">
-	.note-image {
-		max-width: 475px;
-	}
-</style>

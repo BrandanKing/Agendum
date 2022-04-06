@@ -2,8 +2,8 @@
 	<!-- notice dialogRef here -->
 	<q-dialog
 		ref="dialogRef"
-		@hide="onDialogHide"
 		persistent
+		@hide="onDialogHide"
 		:full-width="$q.screen.lt.sm"
 		:position="$q.screen.lt.sm ? 'bottom' : 'standard'">
 		<q-card>

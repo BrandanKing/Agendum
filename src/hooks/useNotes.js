@@ -82,7 +82,6 @@ export const NotesProvider = defineComponent({
 
 		onMounted(async () => {
 			unsubscribe = await getNotes();
-
 			LoadingBar.stop();
 		});
 

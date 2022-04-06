@@ -12,6 +12,7 @@ const NotesPage = () => import('pages/notes/NotesPage.vue');
 const UpdateNote = () => import('components/notes/UpdateNote.vue');
 
 const TasksPage = () => import('pages/tasks/TasksPage.vue');
+const TaskPage = () => import('pages/tasks/TaskPage.vue');
 
 const routes = [
 	{
@@ -34,6 +35,13 @@ const routes = [
 				name: 'Tasks',
 				path: 'tasks',
 				component: TasksPage,
+				children: [{ name: 'Task', path: ':id', component: TaskPage, props: true }],
+			},
+			{
+				name: 'Task',
+				path: 'tasks/:category',
+				component: TaskPage,
+				props: true,
 			},
 		],
 	},

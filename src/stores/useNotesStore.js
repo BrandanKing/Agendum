@@ -8,8 +8,7 @@ export const useNotesStore = defineStore('notes', {
 		getNotes: ({ notes }) => notes,
 		getHasNotes: ({ notes }) => notes.length > 0,
 		getNote: ({ notes }) => {
-			const result = (noteID) => notes.find(({ id }) => id === noteID);
-			return result;
+			return (noteID) => notes.find(({ id }) => id === noteID);
 		},
 	},
 	actions: {

@@ -30,6 +30,10 @@ ul {
 // 	}
 // }
 
+.no-results-image {
+	max-width: 475px;
+}
+
 @keyframes shakeX {
 	0% {
 		transform: rotate(-1deg);

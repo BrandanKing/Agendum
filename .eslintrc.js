@@ -55,6 +55,7 @@ module.exports = {
 		'max-len': ['error', { code: 120 }],
 		'object-curly-newline': 'off',
 		'arrow-body-style': 'off',
+		'comma-dangle': 'off',
 		'no-unused-vars': [
 			'error',
 			{
