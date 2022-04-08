@@ -22,59 +22,39 @@ export const useTasks = () => {
 	const userStore = useUserStore();
 	const uid = userStore.getID;
 
-	const getTasks = () => {
-		const q = query(collection(db, 'tasks'), where('uid', '==', uid), orderBy('dueDate', 'desc'));
+	const getTasks = (currentCategory = null) => {
+		let q;
+
+		if (currentCategory) {
+			q = query(
+				collection(db, 'tasks'),
+				where('uid', '==', uid),
+				where('category', '==', currentCategory),
+				orderBy('completeby', 'desc')
+			);
+		} else {
+			q = query(collection(db, 'tasks'), where('uid', '==', uid), orderBy('completeby', 'desc'));
+		}
 
 		return new Promise((resolve) => {
 			const unsubscribe = onSnapshot(q, { includeMetadataChanges: true }, (querySnapshot) => {
 				const tasks = [];
+
 				querySnapshot.forEach((taskDoc) => {
-					const { dueDate, ...rest } = taskDoc.data();
-					delete rest.uid;
-					let date = null;
+					const { task, category, complete, completeby: date } = taskDoc.data();
 
-					if (dueDate) date = new Timestamp(dueDate.seconds, dueDate.nanoseconds).toMillis();
+					const completeby = date ? new Timestamp(date.seconds, date.nanoseconds).toMillis() : null;
 
-					const noteObject = {
+					const taskObject = {
 						id: taskDoc.id,
-						...rest,
-						date,
+						task,
+						category,
+						complete,
+						completeby,
 						local: taskDoc.metadata.hasPendingWrites,
 					};
-					tasks.push(noteObject);
-				});
 
-				store.setTasks(tasks);
-				resolve(unsubscribe);
-			});
-		});
-	};
-
-	const getCategoryTasks = (category) => {
-		const q = query(
-			collection(db, 'tasks'),
-			where('uid', '==', uid),
-			where('category', '==', category),
-			orderBy('dueDate', 'desc')
-		);
-
-		return new Promise((resolve) => {
-			const unsubscribe = onSnapshot(q, { includeMetadataChanges: true }, (querySnapshot) => {
-				const tasks = [];
-				querySnapshot.forEach((taskDoc) => {
-					const { dueDate, ...rest } = taskDoc.data();
-					delete rest.uid;
-					let date = null;
-
-					if (dueDate) date = new Timestamp(dueDate.seconds, dueDate.nanoseconds).toMillis();
-
-					const noteObject = {
-						id: taskDoc.id,
-						...rest,
-						date,
-						local: taskDoc.metadata.hasPendingWrites,
-					};
-					tasks.push(noteObject);
+					tasks.push(taskObject);
 				});
 
 				store.setTasks(tasks);
@@ -84,14 +64,14 @@ export const useTasks = () => {
 	};
 
 	const createTask = (task) => {
-		let { dueDate } = task;
+		let { completeby } = task;
 
-		if (dueDate) dueDate = Timestamp.fromDate(new Date(dueDate));
+		if (completeby) completeby = Timestamp.fromDate(new Date(completeby));
 
 		const newTask = {
 			uid,
 			...task,
-			dueDate,
+			completeby,
 			complete: false,
 		};
 
@@ -101,16 +81,15 @@ export const useTasks = () => {
 
 	const updateTask = (id, task) => {
 		const taskRef = doc(db, 'tasks', id);
-		const values = { ...task };
+		if (task?.completeby) task.completeby = Timestamp.fromDate(new Date(task.completeby));
 
-		let { dueDate } = task;
-		if (dueDate) {
-			dueDate = Timestamp.fromDate(new Date(dueDate));
-			values.dueDate = dueDate;
-		}
-
-		updateDoc(taskRef, values);
+		updateDoc(taskRef, task);
 		successToast('Task Updated');
+	};
+
+	const completeTask = (id, task) => {
+		const taskRef = doc(db, 'tasks', id);
+		updateDoc(taskRef, task);
 	};
 
 	const deleteTask = (id) => {
@@ -120,9 +99,9 @@ export const useTasks = () => {
 
 	return {
 		getTasks,
-		getCategoryTasks,
 		createTask,
 		updateTask,
+		completeTask,
 		deleteTask,
 	};
 };

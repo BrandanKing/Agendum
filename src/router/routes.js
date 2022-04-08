@@ -35,7 +35,6 @@ const routes = [
 				name: 'Tasks',
 				path: 'tasks',
 				component: TasksPage,
-				children: [{ name: 'Task', path: ':id', component: TaskPage, props: true }],
 			},
 			{
 				name: 'Task',
@@ -63,6 +62,7 @@ const routes = [
 		],
 	},
 	{
+		name: '404',
 		path: '/:catchAll(.*)*',
 		component: () => import('pages/ErrorNotFound.vue'),
 	},

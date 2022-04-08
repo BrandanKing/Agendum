@@ -1,5 +1,15 @@
 <template>
-	<DatePicker v-model="date" :model-config="modelConfig" color="purple" />
+	<q-popup-proxy transition-show="scale" transition-hide="scale">
+		<q-card>
+			<q-card-section class="q-px-none q-pb-none">
+				<DatePicker v-model="date" :model-config="modelConfig" color="purple" v-bind="$attrs" />
+			</q-card-section>
+			<q-card-actions align="right">
+				<q-btn label="Clear" color="white" flat @click="clearDate" />
+				<q-btn label="OK" color="primary" flat v-close-popup />
+			</q-card-actions>
+		</q-card>
+	</q-popup-proxy>
 </template>
 
 <script>
@@ -25,9 +35,14 @@
 				type: 'string',
 				mask: 'iso',
 			};
+
+			const clearDate = () => {
+				date.value = null;
+			};
 			return {
 				date,
 				modelConfig,
+				clearDate,
 			};
 		},
 	};
@@ -53,10 +68,6 @@
 	}
 	:deep(.vc-nav-title) {
 		color: white;
-	}
-	:deep(.vc-day-content),
-	:deep(.vc-weekday) {
-		// color: white !important;
 	}
 	:deep(.vc-weeks) {
 		padding-left: 0;

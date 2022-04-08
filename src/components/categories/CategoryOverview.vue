@@ -8,7 +8,9 @@
 						:name="category?.icon"
 						:style="`background:${category?.colour}`"
 						class="q-mr-md q-pa-xs rounded-borders text-white" />
-					<p class="text-weight-bold text-subtitle1 q-mb-none">{{ category?.label }}</p>
+					<p class="text-weight-bold q-mb-none task-category text-h6">
+						{{ category?.label }}
+					</p>
 				</div>
 				<div class="flex flex-center no-wrap">
 					<q-linear-progress
@@ -38,3 +40,11 @@
 		},
 	};
 </script>
+
+<style lang="scss">
+	.task-category {
+		@media (max-width: $breakpoint-xs-max) {
+			font-size: 0.8rem;
+		}
+	}
+</style>

@@ -1,6 +1,6 @@
 <template>
 	<form class="task">
-		<q-item tag="label" class="bg-dark rounded-borders q-pa-sm" style="min-height: 0">
+		<q-item tag="label" class="bg-dark rounded-borders q-pa-md" style="min-height: 0">
 			<q-item-section side class="q-pr-sm">
 				<q-checkbox v-model="isComplete" dense />
 			</q-item-section>
@@ -16,74 +16,51 @@
 						borderless
 						hide-bottom-space
 						input-style="padding:0;" />
-					<div v-else>
+					<p v-else class="q-mb-none">
 						{{ task.task }}
 						<span v-if="displayDate" class="block text-caption q-mt-sm">
 							<q-icon name="mdi-calendar-blank-outline" style="vertical-align: top" />
 							{{ displayDate }}
 						</span>
-					</div>
+					</p>
 				</q-item-label>
 			</q-item-section>
-
-			<q-item-section side>
+			<q-item-section side v-if="!isComplete">
 				<div class="text-grey-13 q-gutter-xs">
-					<q-btn v-if="edit" size="12px" flat dense icon="mdi-dots-vertical">
+					<q-btn v-if="edit" size="12px" flat dense icon="mdi-dots-vertical" padding="0">
 						<q-menu
 							anchor="top middle"
 							self="bottom middle"
 							transition-show="jump-up"
 							transition-hide="jump-down"
-							style="box-shadow: none; background: transparent">
+							class="no-shadow"
+							style="background: transparent">
 							<q-list>
 								<q-btn
+									round
 									class="time-btn shadow-2"
 									padding="8px"
 									color="dark"
-									round
 									:icon="completionDate ? 'mdi-alarm-check' : 'mdi-alarm'"
 									:text-color="completionDate ? 'green-13' : 'white'">
-									<q-popup-proxy transition-show="scale" transition-hide="scale">
-										<q-card>
-											<q-card-section class="q-px-none q-pb-none">
-												<DateTimePicker
-													v-model="completionDate"
-													is-dark
-													mode="dateTime"
-													:min-date="new Date()" />
-											</q-card-section>
-											<q-card-actions align="right">
-												<q-btn label="Clear" color="white" flat @click="clearDate" />
-												<q-btn label="OK" color="primary" flat v-close-popup />
-											</q-card-actions>
-										</q-card>
-									</q-popup-proxy>
+									<DateTimePicker
+										is-dark
+										mode="dateTime"
+										:min-date="new Date()"
+										v-model="completionDate" />
 								</q-btn>
-
-								<q-select
-									v-model="category"
-									:options="categories"
-									borderless
-									hide-dropdown-icon
-									behavior="dialog">
-									<template v-slot:selected>
-										<q-icon
-											size="20px"
-											:name="category?.icon"
-											:style="`background:${category?.colour}; border-radius:100%`"
-											class="q-pa-sm text-white shadow-2" />
-									</template>
-								</q-select>
+								<SelectCategory v-model="category" class="selected-category" />
 							</q-list>
 						</q-menu>
 					</q-btn>
-					<q-btn v-else flat dense icon="mdi-delete" size="12px" @click="deleteDialog" />
+					<q-btn v-else flat dense icon="mdi-delete" size="12px" @click="confirmTaskDeletion" padding="0" />
 					<q-btn
 						flat
 						dense
 						size="12px"
 						:icon="edit ? 'mdi-check' : 'mdi-pencil'"
-						v-on="edit ? { click: onSubmit } : { click: toggleEdit }" />
+						v-on="edit ? { click: onSubmit } : { click: toggleEdit }"
+						padding="0" />
 				</div>
 			</q-item-section>
 		</q-item>
@@ -91,21 +68,21 @@
 </template>
 
 <script>
-	import { computed, defineAsyncComponent, ref, watch } from 'vue';
+	import { computed, ref, defineAsyncComponent, watch } from 'vue';
 	import { date } from 'quasar';
 	import { isEmpty } from 'lodash';
 	import { useForm } from 'vee-validate';
 	import { object, string } from 'yup';
 	import { diff } from 'deep-object-diff';
-	import { useTasksStore } from 'stores/useTasksStore';
 	import { useTasks } from 'src/hooks/useTasks';
 	import { deleteContent } from 'src/utils/DialogUtil';
+	import SelectCategory from 'components/form/SelectCategory.vue';
 
 	const InputValidation = defineAsyncComponent(() => import('components/form/InputValidation.vue'));
 	const DateTimePicker = defineAsyncComponent(() => import('components/form/DateTimePicker.vue'));
 
 	export default {
-		components: { DateTimePicker, InputValidation },
+		components: { DateTimePicker, InputValidation, SelectCategory },
 		props: {
 			task: {
 				type: Object,
@@ -114,41 +91,30 @@
 		},
 		setup(props) {
 			const { formatDate } = date;
-			const { updateTask, deleteTask } = useTasks();
-
-			const store = useTasksStore();
+			const { completeTask, updateTask, deleteTask } = useTasks();
 
 			const edit = ref(false);
-			const isComplete = ref(props.task?.complete);
 			const taskID = ref(props.task?.id);
-			const completionDate = ref(props.task?.date);
+			const isComplete = ref(props.task?.complete);
+			const completionDate = ref(props.task?.completeby);
+			const category = ref(props.task?.category);
 
 			const displayDate = computed(() => formatDate(completionDate.value, 'Do MMM YYYY'));
-
-			const clearDate = () => {
-				completionDate.value = null;
-			};
-
-			const category = ref(store.getCategory(props.task?.category));
-
-			const categories = computed(() => store.getCatgories);
 
 			const toggleEdit = () => {
 				edit.value = !edit.value;
 			};
 
-			const deleteDialog = () => {
+			watch(isComplete, async (complete) => {
+				const values = { complete };
+				completeTask(taskID.value, values);
+			});
+
+			const confirmTaskDeletion = () => {
 				deleteContent(props.task?.task).then((response) => {
-					if (response) deleteTask(props.task?.id);
+					if (response) deleteTask(taskID.value);
 				});
 			};
-
-			watch(isComplete, async (complete) => {
-				const values = {
-					complete,
-				};
-				updateTask(taskID.value, values);
-			});
 
 			const schema = object({
 				task: string().required().label('Task'),
@@ -164,30 +130,27 @@
 			const onSubmit = handleSubmit((values) => {
 				const initialValues = {
 					task: props.task?.task,
-					dueDate: props.task?.date,
+					completeby: props.task?.completeby,
 					category: props.task?.category,
 				};
 				const updatedValues = {
 					...values,
-					category: category.value.value,
-					dueDate: completionDate.value,
+					completeby: completionDate.value,
+					category: category.value?.value || props.task?.category,
 				};
 				const updated = diff(initialValues, updatedValues);
-
 				if (!isEmpty(updated)) updateTask(props.task?.id, updated);
 				toggleEdit();
 			});
 
 			return {
 				edit,
-				displayDate,
-				completionDate,
 				isComplete,
-				category,
-				categories,
-				deleteDialog,
+				completionDate,
+				displayDate,
 				toggleEdit,
-				clearDate,
+				category,
+				confirmTaskDeletion,
 				onSubmit,
 			};
 		},
@@ -204,14 +167,22 @@
 				padding-left: 8px;
 			}
 		}
+		.q-textarea.q-field--dense .q-field__control,
+		.q-textarea.q-field--dense .q-field__native {
+			min-height: fit-content;
+		}
+		.q-textarea .q-field__control-container {
+			padding: 0;
+		}
 	}
 	.time-btn {
 		.q-icon {
 			font-size: 20px;
 		}
 	}
-	.q-textarea.q-field--dense .q-field__control,
-	.q-textarea.q-field--dense .q-field__native {
-		min-height: fit-content;
+	.selected-category {
+		.q-icon {
+			border-radius: 100%;
+		}
 	}
 </style>

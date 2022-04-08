@@ -16,6 +16,7 @@
 			</div>
 			<div class="flex flex-center column" v-else>
 				<q-img src="~assets/tasks.svg" class="q-my-md no-results-image" />
+				<p class="text-h4 text-weight-bold">You currently don't have any tasks</p>
 			</div>
 		</TasksProvider>
 	</div>
@@ -23,8 +24,10 @@
 
 <script>
 	import { computed } from 'vue';
+
 	import { TasksProvider } from 'src/hooks/useTasks';
 	import { useTasksStore } from 'stores/useTasksStore';
+
 	import AddTask from 'components/tasks/AddTask.vue';
 	import CategoryOverview from 'components/categories/CategoryOverview.vue';
 

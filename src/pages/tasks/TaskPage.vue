@@ -1,28 +1,28 @@
 <template>
-	<div class="container overflow-hidden">
+	<div class="container overflow-hidden" :style="`--q-primary:${currentCategory?.colour}`">
 		<div class="row q-col-gutter-lg q-mb-lg">
 			<div class="col-12 flex items-center">
 				<q-btn color="dark" padding="xs" size="16px" icon="mdi-chevron-left" :to="{ name: 'Tasks' }" />
-				<h1 class="q-mb-none q-ml-lg">{{ currentCategory.label }}</h1>
+				<h1 class="q-mb-none q-ml-lg">{{ currentCategory?.label }}</h1>
 			</div>
 			<div class="col-12">
-				<AddTask :category="currentCategory.value" />
+				<AddTask :category="currentCategory?.value" />
 			</div>
 		</div>
 
-		<p class="text-h5 text-weight-bold">Tasks - 1</p>
+		<p class="text-h5 text-weight-bold">Tasks - {{ totalRemainingTasks }}</p>
 
 		<transition-group appear tag="div" name="fade" class="row q-col-gutter-md q-mb-md relative-position">
-			<div class="col-12" v-for="category in tasks?.false" :key="category.task">
-				<TheTask :task="category" />
+			<div class="col-12" v-for="task in tasks?.false" :key="task.id">
+				<TheTask :task="task" />
 			</div>
 		</transition-group>
 
-		<p class="text-h5 text-weight-bold">Tasks - 1</p>
+		<p class="text-h5 text-weight-bold">Completed - {{ totalCompletedTasks }}</p>
 
 		<transition-group appear tag="div" name="fade" class="row q-col-gutter-md q-mb-md relative-position">
-			<div class="col-12" v-for="category in tasks?.true" :key="category.task">
-				<TheTask :task="category" />
+			<div class="col-12" v-for="task in tasks?.true" :key="task.id">
+				<TheTask :task="task" />
 			</div>
 		</transition-group>
 	</div>
@@ -46,18 +46,26 @@
 			const store = useTasksStore();
 			const currentCategory = computed(() => store.getCategory(props.category));
 			const tasks = computed(() => store.getCategoryTasks);
-			const { getCategoryTasks } = useTasks();
+			const { getTasks } = useTasks();
+
+			const totalCompletedTasks = computed(() => {
+				return tasks.value?.true ? tasks.value?.true.length : 0;
+			});
+			const totalRemainingTasks = computed(() => {
+				return tasks.value?.false ? tasks.value?.false.length : 0;
+			});
+
 			let unsubscribe;
 			onMounted(async () => {
-				unsubscribe = await getCategoryTasks(props.category);
+				unsubscribe = await getTasks(props.category);
 			});
 			onUnmounted(() => {
 				unsubscribe();
 			});
 			return {
 				tasks,
-				totalIncompleteTasks: 1,
-				totalCompleteTasks: 1,
+				totalRemainingTasks,
+				totalCompletedTasks,
 				currentCategory,
 			};
 		},
