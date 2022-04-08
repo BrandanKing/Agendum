@@ -2,7 +2,7 @@
 	<q-popup-proxy transition-show="scale" transition-hide="scale">
 		<q-card>
 			<q-card-section class="q-px-none q-pb-none">
-				<DatePicker v-model="date" :model-config="modelConfig" color="purple" v-bind="$attrs" />
+				<DatePicker v-model="date" :model-config="modelConfig" color="purple" v-bind="$attrs" timezone="UTC" />
 			</q-card-section>
 			<q-card-actions align="right">
 				<q-btn label="Clear" color="white" flat @click="clearDate" />
@@ -31,6 +31,7 @@
 					emit('update:modelValue', value);
 				},
 			});
+
 			const modelConfig = {
 				type: 'string',
 				mask: 'iso',

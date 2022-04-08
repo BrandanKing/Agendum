@@ -14,6 +14,9 @@ const UpdateNote = () => import('components/notes/UpdateNote.vue');
 const TasksPage = () => import('pages/tasks/TasksPage.vue');
 const TaskPage = () => import('pages/tasks/TaskPage.vue');
 
+const EventsPage = () => import('pages/events/EventsPage.vue');
+const UpdateEvent = () => import('components/events/UpdateEvent.vue');
+
 const routes = [
 	{
 		path: '/',
@@ -41,6 +44,12 @@ const routes = [
 				path: 'tasks/:category',
 				component: TaskPage,
 				props: true,
+			},
+			{
+				name: 'Events',
+				path: 'events',
+				component: EventsPage,
+				children: [{ name: 'Event', path: ':id', component: UpdateEvent, props: true }],
 			},
 		],
 	},

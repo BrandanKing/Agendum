@@ -74,7 +74,7 @@ export const useNotes = () => {
 };
 
 export const NotesProvider = defineComponent({
-	setup(_props, { slots }) {
+	setup(props, { slots }) {
 		let unsubscribe;
 		const { getNotes } = useNotes();
 

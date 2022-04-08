@@ -1,6 +1,7 @@
 // app global css in SCSS form
 
 @import 'layout/container';
+@import 'components/calendar/calendar';
 
 a {
 	text-decoration: none;
@@ -24,14 +25,12 @@ ul {
 	}
 }
 
-// .body--light {
-// 	.q-card {
-// 		background: $grey-1;
-// 	}
-// }
-
 .no-results-image {
 	max-width: 475px;
+}
+
+.overflow-visible {
+	overflow: visible !important;
 }
 
 @keyframes shakeX {

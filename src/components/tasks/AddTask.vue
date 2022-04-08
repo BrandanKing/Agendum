@@ -33,7 +33,7 @@
 	import { object, string } from 'yup';
 	import { useTasks } from 'src/hooks/useTasks';
 	import InputValidation from 'components/form/InputValidation.vue';
-	import SelectCategory from '../form/SelectCategory.vue';
+	import SelectCategory from 'components/form/SelectCategory.vue';
 
 	const DateTimePicker = defineAsyncComponent(() => import('components/form/DateTimePicker.vue'));
 

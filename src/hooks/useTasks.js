@@ -107,7 +107,7 @@ export const useTasks = () => {
 };
 
 export const TasksProvider = defineComponent({
-	setup(_props, { slots }) {
+	setup(props, { slots }) {
 		let unsubscribe;
 		const { getTasks } = useTasks();
 
