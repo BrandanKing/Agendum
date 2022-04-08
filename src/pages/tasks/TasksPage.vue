@@ -16,7 +16,7 @@
 			</div>
 			<div class="flex flex-center column" v-else>
 				<q-img src="~assets/tasks.svg" class="q-my-md no-results-image" />
-				<p class="text-h4 text-weight-bold">You currently don't have any tasks</p>
+				<p class="text-h4 text-weight-bold text-center">You currently don't have any tasks</p>
 			</div>
 		</TasksProvider>
 	</div>

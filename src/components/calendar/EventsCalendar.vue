@@ -24,11 +24,16 @@
 		components: {
 			FullCalendar,
 		},
-		setup() {
+		setup(props) {
 			const store = useEventsStore();
 			const events = computed(() => store.getEvents);
 			const $q = useQuasar();
 			const router = useRouter();
+			const headerToolbar = {
+				left: 'prev,next today',
+				center: 'title',
+				right: 'dayGridMonth,dayGridWeek',
+			};
 
 			const configOptions = computed(() => {
 				return {
@@ -37,6 +42,7 @@
 					fixedWeekCount: false,
 					displayEventTime: false,
 					dayMaxEvents: 3,
+					headerToolbar: props.header ? headerToolbar : props.header,
 					events: events.value,
 				};
 			});

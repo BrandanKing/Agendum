@@ -112,7 +112,7 @@ module.exports = configure((/* ctx */) => ({
 		// directives: [],
 
 		// Quasar plugins
-		plugins: ['Notify', 'LoadingBar', 'Dialog'],
+		plugins: ['Notify', 'LoadingBar', 'Dialog', 'LocalStorage'],
 	},
 
 	// animations: 'all', // --- includes all animations
@@ -154,11 +154,32 @@ module.exports = configure((/* ctx */) => ({
 
 	// https://v2.quasar.dev/quasar-cli/developing-pwa/configuring-pwa
 	pwa: {
-		workboxMode: 'generateSW', // or 'injectManifest'
+		workboxMode: 'injectManifest', // or 'injectManifest'
 		injectPwaMetaTags: true,
 		swFilename: 'sw.js',
 		manifestFilename: 'manifest.json',
 		useCredentialsForManifestTag: false,
+		manifest: {
+			short_name: 'Agendum',
+			display: 'standalone',
+			background_color: '#17181f',
+			theme_color: '#fd7b33',
+			shortcuts: [
+				{
+					name: 'Your Events',
+					url: '/events',
+					description: 'A List of events',
+				},
+				{
+					name: 'Your Tasks',
+					url: '/tasks',
+				},
+				{
+					name: 'Your Notes',
+					url: '/notes',
+				},
+			],
+		},
 		// extendGenerateSWOptions (cfg) {}
 		// extendInjectManifestOptions (cfg) {},
 		// extendManifestJson (json) {}

@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth, connectAuthEmulator } from 'firebase/auth';
-import { getFirestore, connectFirestoreEmulator, enableIndexedDbPersistence } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
+import { getFirestore, enableIndexedDbPersistence } from 'firebase/firestore';
 
 const firebaseConfig = {
 	apiKey: 'AIzaSyAriVP2RJ9d5CRBkqaV1jdFhsfG0Lnasrc',
@@ -15,25 +15,9 @@ const firebaseApp = initializeApp(firebaseConfig);
 const auth = getAuth(firebaseApp);
 const db = getFirestore(firebaseApp);
 
-connectAuthEmulator(auth, 'http://localhost:9099');
-connectFirestoreEmulator(db, 'localhost', 8080);
+// connectAuthEmulator(auth, 'http://localhost:9099');
+// connectFirestoreEmulator(db, 'localhost', 8080);
 
-enableIndexedDbPersistence(db, { synchronizeTabs: true }).catch((err) => {
-	if (err.code === 'failed-precondition') {
-		// Multiple tabs open, persistence can only be enabled
-		// in one tab at a a time.
-		// ...
-	} else if (err.code === 'unimplemented') {
-		// The current browser does not support all of the
-		// features required to enable persistence
-		// ...
-	}
-});
-
-// const disable = async () => {
-// await disableNetwork(db);
-// };
-
-// disable();
+enableIndexedDbPersistence(db, { synchronizeTabs: true });
 
 export { auth, db };

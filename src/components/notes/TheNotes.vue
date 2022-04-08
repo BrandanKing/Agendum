@@ -21,8 +21,8 @@
 	import { computed, defineAsyncComponent } from 'vue';
 	import { useQuasar } from 'quasar';
 	import MasonryWall from '@yeger/vue-masonry-wall';
-	import TheNote from 'components/notes/TheNote.vue';
 	import { useNotesStore } from 'stores/useNotesStore';
+	import TheNote from 'components/notes/TheNote.vue';
 
 	const AddNote = defineAsyncComponent(() => import('components/notes/AddNote.vue'));
 

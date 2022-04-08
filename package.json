@@ -7,6 +7,7 @@
 	"private": true,
 	"scripts": {
 		"firebase": "firebase emulators:start --import=./save-data --export-on-exit",
+		"icons": "icongenie generate -i logo.png --skip-trim --theme-color 17181f",
 		"lint": "eslint --ext .js,.vue ./",
 		"test": "echo \"No test specified\" && exit 0"
 	},
@@ -35,7 +36,14 @@
 		"eslint": "^8.10.0",
 		"eslint-config-airbnb-base": "^15.0.0",
 		"eslint-plugin-import": "^2.20.1",
-		"eslint-plugin-vue": "^8.5.0"
+		"eslint-plugin-vue": "^8.5.0",
+		"workbox-build": "^6.5.2",
+		"workbox-cacheable-response": "^6.5.2",
+		"workbox-core": "^6.5.2",
+		"workbox-expiration": "^6.5.2",
+		"workbox-precaching": "^6.5.2",
+		"workbox-routing": "^6.5.2",
+		"workbox-strategies": "^6.5.2"
 	},
 	"engines": {
 		"node": "^18 || ^16 || ^14.19",

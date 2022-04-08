@@ -15,13 +15,15 @@
 				</router-view>
 			</q-page>
 		</q-page-container>
+		<InstallApp />
 	</q-layout>
 </template>
 
 <script>
 	import TheHeader from 'components/header/TheHeader.vue';
+	import InstallApp from 'components/user/InstallApp.vue';
 
 	export default {
-		components: { TheHeader },
+		components: { TheHeader, InstallApp },
 	};
 </script>
