@@ -15,9 +15,6 @@ const firebaseApp = initializeApp(firebaseConfig);
 const auth = getAuth(firebaseApp);
 const db = getFirestore(firebaseApp);
 
-// connectAuthEmulator(auth, 'http://localhost:9099');
-// connectFirestoreEmulator(db, 'localhost', 8080);
-
 enableIndexedDbPersistence(db, { synchronizeTabs: true });
 
 export { auth, db };

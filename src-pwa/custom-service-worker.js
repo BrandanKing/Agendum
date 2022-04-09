@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-restricted-globals */
 /*
@@ -27,3 +28,26 @@ if (process.env.MODE !== 'ssr' || process.env.PROD) {
 		})
 	);
 }
+
+self.addEventListener('push', (event) => {
+	if (event.data) {
+		const data = JSON.parse(event.data.text());
+		const { title, ...body } = data;
+		event.waitUntil(self.registration.showNotification(title, body));
+	}
+});
+
+self.addEventListener('notificationclick', (event) => {
+	event.waitUntil(
+		clients.matchAll().then((clis) => {
+			const clientUsingApp = clis.find((cli) => cli.visibilityState === 'visible');
+
+			if (clientUsingApp) {
+				clientUsingApp.navigate(notification.data.openUrl);
+				clientUsingApp.focus();
+			} else {
+				clients.openWindow(notification.data.openUrl);
+			}
+		})
+	);
+});

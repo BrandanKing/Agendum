@@ -1,67 +1,72 @@
 <template>
 	<transition appear enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
 		<q-page-sticky position="bottom" :offset="[18, 18]" v-if="show">
-			<div class="q-pa-md q-gutter-sm">
-				<q-banner dense inline-actions rounded class="bg-dark">
-					Install Agendum
+			<q-banner inline-actions rounded class="text-weight-bold q-px-lg">
+				<div class="text-weight-bold">Install Agendum</div>
 
-					<template v-slot:action>
-						<q-btn flat label="Yes" @click="install" />
-						<q-btn flat label="Later" />
-						<q-btn flat label="Never" @click="never" />
-					</template>
-				</q-banner>
-			</div>
+				<template v-slot:action>
+					<div class="q-gutter-sm full-width">
+						<q-btn flat label="No" @click="setShow(false)" no-caps />
+						<q-btn label="Yes" color="primary" @click="install" no-caps />
+					</div>
+				</template>
+			</q-banner>
 		</q-page-sticky>
 	</transition>
 </template>
 
 <script>
-	import { useQuasar } from 'quasar';
 	import { onMounted, ref } from 'vue';
 
 	export default {
 		setup() {
 			const show = ref(false);
-			const $q = useQuasar();
 			let deferredPrompt;
 
-			const never = () => {
-				show.value = false;
-				$q.localStorage.set('neverShowAppInstallBanner', true);
+			const setShow = (value) => {
+				show.value = value;
 			};
-
 			const install = () => {
 				deferredPrompt.prompt();
-				show.value = false;
+				setShow(false);
 			};
 
 			onMounted(() => {
-				const neverShowAppInstallBanner = $q.localStorage.getItem('neverShowAppInstallBanner');
-				if (!neverShowAppInstallBanner) {
-					window.addEventListener('beforeinstallprompt', (e) => {
-						e.preventDefault();
-						deferredPrompt = e;
-
-						setTimeout(() => {
-							show.value = true;
-						}, 3000);
-					});
-				}
+				window.addEventListener('beforeinstallprompt', (e) => {
+					deferredPrompt = e;
+					setShow(true);
+				});
 			});
 
 			window.addEventListener('appinstalled', () => {
-				show.value = false;
+				setShow(false);
 				deferredPrompt = null;
 			});
 
 			return {
+				setShow,
 				show,
-				never,
 				install,
 			};
 		},
 	};
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+	.q-page-sticky--shrink {
+		> :deep(div) {
+			display: block;
+			width: 100%;
+			> div {
+				margin: 0 auto;
+				max-width: 575px;
+			}
+		}
+		:deep(.q-banner__actions) {
+			padding-left: 0;
+		}
+		.q-banner {
+			background: var(--q-dark-page);
+		}
+	}
+</style>

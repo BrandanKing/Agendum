@@ -20,7 +20,7 @@
 					<InputValidation filled square name="email" label="Email Address" />
 				</div>
 				<div class="col-12">
-					<InputValidation filled square name="password" label="Password" />
+					<InputValidation filled square name="password" label="Password" type="password" />
 				</div>
 				<div class="col-12">
 					<q-btn

@@ -20,7 +20,7 @@ export const useAuth = () => {
 		try {
 			const { user } = await signInWithEmailAndPassword(auth, email, password);
 			store.setUser(user);
-			router.push({ name: 'Dashbord' });
+			router.push({ name: 'Dashboard' });
 			successToast('Login Successful');
 			return { success: true, message: 'User successfully created' };
 		} catch (error) {
@@ -34,7 +34,7 @@ export const useAuth = () => {
 			await createUserWithEmailAndPassword(auth, email, password);
 			await updateProfile(auth.currentUser, { displayName });
 			store.setUser(auth.currentUser);
-			router.push({ name: 'Dashbord' });
+			router.push({ name: 'Dashboard' });
 			successToast('Account Successfully Created');
 			return { success: true, message: 'User successfully created' };
 		} catch (error) {

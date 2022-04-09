@@ -20,6 +20,7 @@
 					<q-card-section>
 						<EditDisplayName />
 						<EditEmail />
+						<PushNotifications />
 					</q-card-section>
 				</q-card>
 				<q-btn no-caps color="grey-9" @click="logoutUser">Sign Out</q-btn>
@@ -33,15 +34,18 @@
 	import DisplayName from 'components/user/DisplayName.vue';
 	import EditDisplayName from 'components/account/EditDisplayName.vue';
 	import EditEmail from 'components/account/EditEmail.vue';
+	import PushNotifications from 'components/user/PushNotifications.vue';
 
 	export default {
 		components: {
 			DisplayName,
 			EditDisplayName,
 			EditEmail,
+			PushNotifications,
 		},
 		setup() {
 			const { logoutUser } = useAuth();
+
 			return { logoutUser };
 		},
 	};
