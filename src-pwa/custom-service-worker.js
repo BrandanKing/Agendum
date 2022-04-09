@@ -38,10 +38,10 @@ self.addEventListener('push', (event) => {
 });
 
 self.addEventListener('notificationclick', (event) => {
+	const { notification } = event;
 	event.waitUntil(
 		clients.matchAll().then((clis) => {
 			const clientUsingApp = clis.find((cli) => cli.visibilityState === 'visible');
-
 			if (clientUsingApp) {
 				clientUsingApp.navigate(notification.data.openUrl);
 				clientUsingApp.focus();
