@@ -78,7 +78,7 @@ exports.notesCreated = functions.firestore.document('notes/{docId}').onCreate((c
 });
 
 exports.scheduledFunctionCrontab = functions.pubsub
-	.schedule('* 11 * * *')
+	.schedule('0 11 * * *')
 	.timeZone('Europe/London')
 	.onRun(async () => {
 		const { users } = await admin.auth().listUsers();
@@ -95,6 +95,7 @@ exports.scheduledFunctionCrontab = functions.pubsub
 				.where('uid', '==', uid)
 				.where('completeby', '>', today)
 				.where('completeby', '<', tomorrow)
+				.where('complete', '==', false)
 				.get();
 
 			if (snapshot.empty) return false;
