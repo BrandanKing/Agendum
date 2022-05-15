@@ -22,8 +22,9 @@ quasar dev
 quasar build
 ```
 
-### Build the app for production
+### Live URL & Git Link
 
 ```bash
 Live URL - https://agendum-6285e.web.app/
+GitHub - https://github.com/BrandanKing/Agendum
 ```
