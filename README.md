@@ -7,8 +7,6 @@ Agendum - A Personal Planner App
 ## Install the dependencies
 
 ```bash
-yarn
-# or
 npm install
 ```
 
@@ -18,16 +16,14 @@ npm install
 quasar dev
 ```
 
-### Lint the files
+### Build the app for production
 
 ```bash
-yarn lint
-# or
-npm run lint
+quasar build
 ```
 
 ### Build the app for production
 
 ```bash
-quasar build
+Live URL - https://agendum-6285e.web.app/
 ```
